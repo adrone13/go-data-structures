@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"strings"
+
+	"go-data-structures/stack"
 )
 
 // Trees to implement:
@@ -121,46 +123,19 @@ func (bst *BinarySearchTree) Dfs() {
 		level int
 	}
 
-	stack := []stackVal{{bst.root, "Root", 0}}
-	push := func(val stackVal) {
-		stack = append(stack, val)
-	}
-	pop := func() {
-		stack = stack[:len(stack)-1]
-	}
-	for len(stack) > 0 {
-		current := stack[len(stack)-1]
-
+	stack := stack.New[stackVal]()
+	stack.Push(stackVal{bst.root, "Root", 0})
+	for stack.Len() > 0 {
+		current := stack.Pop()
 		fmt.Printf("%s%s: %d\n", strings.Repeat(pad, current.level), current.pos, current.n.val)
 
-		pop()
 		if current.n.right != nil {
-			push(stackVal{current.n.right, "Right", current.level + 1})
+			stack.Push(stackVal{current.n.right, "Right", current.level + 1})
 		}
 		if current.n.left != nil {
-			push(stackVal{current.n.left, "Left", current.level + 1})
+			stack.Push(stackVal{current.n.left, "Left", current.level + 1})
 		}
 	}
-
-	//stack := []*node{bst.root}
-	//push := func(node *node) {
-	//	stack = append(stack, node)
-	//}
-	//pop := func() {
-	//	stack = stack[:len(stack)-1]
-	//}
-	//for len(stack) > 0 {
-	//	current := stack[len(stack)-1]
-	//	fmt.Printf("Current node %d\n", current.val)
-	//
-	//	pop()
-	//	if current.right != nil {
-	//		push(current.right)
-	//	}
-	//	if current.left != nil {
-	//		push(current.left)
-	//	}
-	//}
 }
 
 func (bst *BinarySearchTree) DfsRecursive() {

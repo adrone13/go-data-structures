@@ -46,3 +46,15 @@ func TestStackInt(t *testing.T) {
 		}
 	}
 }
+
+func TestStackLen(t *testing.T) {
+	stack := New[string]()
+	values := []string{"a", "c", "b", "d", "e", "f", "g", "h", "i", "j"}
+	for _, v := range values {
+		stack.Push(v)
+	}
+	expected := 10
+	if expected != stack.Len() {
+		t.Errorf("Expected length to be %d but got %d", expected, stack.Len())
+	}
+}
